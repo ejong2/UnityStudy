@@ -19,17 +19,45 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
+        // Set drag and angular drag for the Rigidbody
+        rb.drag = 50;
+        rb.angularDrag = 50;
+
+        // Subscribe to the InputManager's events
+        Managers.Input.OnSpaceDown += Jump;
+        Managers.Input.OnLeftShiftDown += Descend;
+        Managers.Input.OnLeftMouseDown += StartShooting;
+        Managers.Input.OnLeftMouseUp += StopShooting;
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe to prevent memory leaks
+        Managers.Input.OnSpaceDown -= Jump;
+        Managers.Input.OnLeftShiftDown -= Descend;
+        Managers.Input.OnLeftMouseDown -= StartShooting;
+        Managers.Input.OnLeftMouseUp -= StopShooting;
     }
 
     private void Update()
     {
         HandleMovementAndRotation();
-        HandleActions();
+    }
+
+    private void Jump()
+    {
+        rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+    }
+
+    private void Descend()
+    {
+        transform.Translate(Vector3.down * Time.deltaTime * 3);
     }
 
     private void HandleMovementAndRotation()
     {
-        Vector3 moveDir = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")).normalized;
+        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical")).normalized;
 
         // Move
         rb.MovePosition(transform.position + moveDir * moveSpeed * Time.deltaTime);
@@ -42,25 +70,19 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void HandleActions()
+    private void StartShooting()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-        if (Input.GetKey(KeyCode.LeftShift)) transform.Translate(Vector3.down * Time.deltaTime * 3);
+        ShootBullet();
+        if (shootingCoroutine == null) shootingCoroutine = StartCoroutine(ShootBulletsRepeatedly());
+    }
 
-        if (Input.GetMouseButtonDown(0))
+    private void StopShooting()
+    {
+        isShooting = false;
+        if (shootingCoroutine != null)
         {
-            ShootBullet();
-            if (shootingCoroutine == null) shootingCoroutine = StartCoroutine(ShootBulletsRepeatedly());
-        }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            isShooting = false;
-            if (shootingCoroutine != null)
-            {
-                StopCoroutine(shootingCoroutine);
-                shootingCoroutine = null;
-            }
+            StopCoroutine(shootingCoroutine);
+            shootingCoroutine = null;
         }
     }
 

@@ -154,6 +154,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   rotSpeed: 500
+  cameraTransform: {fileID: 963194228}
+  cameraDistance: 10
+  cameraHeight: 5
 --- !u!54 &483010017
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -438,7 +441,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -485,7 +488,7 @@ GameObject:
   - component: {fileID: 1286936539}
   - component: {fileID: 1286936538}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Cube2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,15 +594,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.934493
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.72
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.4628336
+      value: 6.4
       objectReference: {fileID: 0}
     - target: {fileID: 400326, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
       propertyPath: m_LocalRotation.w

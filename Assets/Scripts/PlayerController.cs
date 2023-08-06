@@ -12,13 +12,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotSpeed = 500.0f;
 
     // 총알 발사 관련 설정
-    [Header("Shooting Settings")]
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private float shootingRate = 0.2f;
+    //[Header("Shooting Settings")]
+    //[SerializeField] private GameObject bulletPrefab;
+    //[SerializeField] private float shootingRate = 0.2f;
 
     private Rigidbody rb;
-    private bool isShooting = false;
-    private Coroutine shootingCoroutine;
+    //private bool isShooting = false;
+    //private Coroutine shootingCoroutine;
 
     // 오브젝트가 활성화되면 실행되는 메서드
     private void Awake()
@@ -30,21 +30,21 @@ public class PlayerController : MonoBehaviour
         rb.drag = 50;
         rb.angularDrag = 50;
 
-        // 입력 이벤트에 메서드 구독
-        Managers.Input.OnSpaceDown += Jump;
-        Managers.Input.OnLeftShiftDown += Descend;
-        Managers.Input.OnLeftMouseDown += StartShooting;
-        Managers.Input.OnLeftMouseUp += StopShooting;
+        //// 입력 이벤트에 메서드 구독
+        //Managers.Input.OnSpaceDown += Jump;
+        //Managers.Input.OnLeftShiftDown += Descend;
+        //Managers.Input.OnLeftMouseDown += StartShooting;
+        //Managers.Input.OnLeftMouseUp += StopShooting;
     }
 
     // 오브젝트가 파괴될 때 실행되는 메서드
     private void OnDestroy()
     {
-        // 메모리 누수를 방지하기 위해 이벤트 구독 취소
-        Managers.Input.OnSpaceDown -= Jump;
-        Managers.Input.OnLeftShiftDown -= Descend;
-        Managers.Input.OnLeftMouseDown -= StartShooting;
-        Managers.Input.OnLeftMouseUp -= StopShooting;
+        //// 메모리 누수를 방지하기 위해 이벤트 구독 취소
+        //Managers.Input.OnSpaceDown -= Jump;
+        //Managers.Input.OnLeftShiftDown -= Descend;
+        //Managers.Input.OnLeftMouseDown -= StartShooting;
+        //Managers.Input.OnLeftMouseUp -= StopShooting;
     }
 
     // 프레임마다 실행되는 메서드
@@ -53,18 +53,18 @@ public class PlayerController : MonoBehaviour
         HandleMovementAndRotation();
     }
 
-    // 점프 메서드
-    private void Jump()
-    {
-        // Rigidbody를 사용하여 물리적 효과를 적용
-        rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
-    }
+    //// 점프 메서드
+    //private void Jump()
+    //{
+    //    // Rigidbody를 사용하여 물리적 효과를 적용
+    //    rb.AddForce(Vector3.up * 5, ForceMode.Impulse);
+    //}
 
-    // 내려가기 메서드
-    private void Descend()
-    {
-        transform.Translate(Vector3.down * Time.deltaTime * 3);
-    }
+    //// 내려가기 메서드
+    //private void Descend()
+    //{
+    //    transform.Translate(Vector3.down * Time.deltaTime * 3);
+    //}
 
     // 움직임과 회전 처리 메서드
     private void HandleMovementAndRotation()
@@ -83,42 +83,42 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 총알 발사 시작 메서드
-    private void StartShooting()
-    {
-        ShootBullet();
-        if (shootingCoroutine == null) shootingCoroutine = StartCoroutine(ShootBulletsRepeatedly());
-    }
+    //// 총알 발사 시작 메서드
+    //private void StartShooting()
+    //{
+    //    ShootBullet();
+    //    if (shootingCoroutine == null) shootingCoroutine = StartCoroutine(ShootBulletsRepeatedly());
+    //}
 
-    // 총알 발사 중지 메서드
-    private void StopShooting()
-    {
-        isShooting = false;
-        if (shootingCoroutine != null)
-        {
-            StopCoroutine(shootingCoroutine);
-            shootingCoroutine = null;
-        }
-    }
+    //// 총알 발사 중지 메서드
+    //private void StopShooting()
+    //{
+    //    isShooting = false;
+    //    if (shootingCoroutine != null)
+    //    {
+    //        StopCoroutine(shootingCoroutine);
+    //        shootingCoroutine = null;
+    //    }
+    //}
 
-    // 코루틴을 사용하여 일정 간격으로 총알 발사
-    private IEnumerator ShootBulletsRepeatedly()
-    {
-        yield return new WaitForSeconds(shootingRate);
-        while (isShooting)
-        {
-            ShootBullet();
-            yield return new WaitForSeconds(shootingRate);
-        }
-    }
+    //// 코루틴을 사용하여 일정 간격으로 총알 발사
+    //private IEnumerator ShootBulletsRepeatedly()
+    //{
+    //    yield return new WaitForSeconds(shootingRate);
+    //    while (isShooting)
+    //    {
+    //        ShootBullet();
+    //        yield return new WaitForSeconds(shootingRate);
+    //    }
+    //}
 
-    // 총알 발사 메서드
-    private void ShootBullet()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
-        Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        bulletRb.AddForce(transform.forward * 1000);
-        bulletRb.useGravity = false;
-        Destroy(bullet, 5);
-    }
+    //// 총알 발사 메서드
+    //private void ShootBullet()
+    //{
+    //    GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
+    //    Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+    //    bulletRb.AddForce(transform.forward * 1000);
+    //    bulletRb.useGravity = false;
+    //    Destroy(bullet, 5);
+    //}
 }

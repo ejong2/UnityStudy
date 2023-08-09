@@ -11,11 +11,9 @@ public class Define
         Drag,
 
     }
-
     public enum CameraMode
     {
         QuarterView,
         TopView,
     }
-
 }

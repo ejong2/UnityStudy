@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+// 자동으로 Ridgidbody 컴포넌트를 추가한다.
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]
@@ -31,6 +33,8 @@ public class PlayerController : MonoBehaviour
             {
                 float moveDist = Mathf.Clamp(moveSpeed * Time.deltaTime, 0, dir.magnitude);
                 transform.position += dir.normalized * moveSpeed * Time.deltaTime;
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), 20 * Time.deltaTime);
                 transform.LookAt(_destPos);
             }
         }
